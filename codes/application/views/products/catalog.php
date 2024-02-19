@@ -29,37 +29,38 @@
                 <li><a href="#"></a></li>
             </ul> -->
         </aside>
-        <section >
+        <section>
             <form action="" method="post" class="search_form">
                 <input type="text" name="search" placeholder="Search Products">
             </form>
             <a class="show_cart" href="/cart">Cart (0)</a>
-            <form action="" method="post" class="categories_form">
+            <form action="/products/category/" method="post" class="categories_form">
                 <h3>Categories</h3>
                 <ul>
                     <li>
                         <button type="submit" class="active">
-                            <span>36</span><img src="/assets/images/all_products.png" alt="#"><h4>All Products</h4>
+                            <span><?=count($all_products)?></span><img src="/assets/images/all_products.png" alt="#"><h4>All Products</h4>
                         </button>
                     </li>
 <?php
 foreach($categories as $category){
 ?>                  <li>
-                        <button type="submit">
-                            <span>36</span><img src="<?=$category['image_dir']?>" alt="<?=$category['type_name']?> icon"><h4><?=$category['type_name']?></h4>
+                        <button type="submit" name="category" value="<?=$category['id']?>">
+                            <span><?=$category['product_count']?></span><img src="<?=$category['image_dir']?>" alt="<?=$category['type_name']?> icon"><h4><?=$category['type_name']?></h4>
                         </button>
                     </li>
-<?php    
-}
-?>              </ul>
+<?php } ?>      </ul>
+                <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
             </form>
             <div>
-                <h3>All Products (46)</h3>
+                <h3>All <?=$selected_category['type_name']?> (<?=count($products)?>)</h3>
                 <ul>
-                    <li>
-                        <a href="product_view.html">
-                            <img src="/assets/images/food.png" alt="#">
-                            <h3>Vegetables</h3>
+<?php
+foreach($products as $product){
+?>                  <li>
+                        <a href="/products/<?=$product['id']?>">
+                            <img src="<?=$product['image_dir']?>" alt="product image">
+                            <h3><?=$product['name']?></h3>
                             <ul class="rating">
                                 <li></li>
                                 <li></li>
@@ -68,42 +69,17 @@ foreach($categories as $category){
                                 <li></li>
                             </ul>
                             <span>36 Rating</span>
-                            <span class="price">$ 10</span>
+                            <span class="price">₱ <?=$product['price']?></span>
                         </a>
                     </li>
-                    <li>
-                        <a href="product_view.html">
-                            <img src="/assets/images/food.png" alt="#">
-                            <h3>Vegetables</h3>
-                            <ul class="rating">
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-                            <span>36 Rating</span>
-                            <span class="price">$ 10</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="product_view.html">
-                            <img src="/assets/images/food.png" alt="#">
-                            <h3>Vegetables</h3>
-                            <ul class="rating">
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-                            <span>36 Rating</span>
-                            <span class="price">$ 10</span>
-                        </a>
-                    </li>
-                </ul>
+<?php } ?>      </ul>
             </div>
         </section>
     </div>
+    <nav>
+<?php for($i = 1; $i <= $page_count; $i++){ ?>
+        <a href="/products/paginate/<?=$i?>"><?=$i?></a>
+<?php } ?>
+    </nav>
 </body>
 </html>
