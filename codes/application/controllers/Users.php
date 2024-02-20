@@ -14,10 +14,10 @@ class Users extends CI_Controller{
     }
 
     public function login(){
+        // Will redirect to dashboard if user is already signed in.
         if($this->session->userdata('user_id')){
             redirect('/products');
         }else{
-            $this->output->enable_profiler(true);
             $this->load->view('/users/login');
         }
     }
@@ -34,7 +34,11 @@ class Users extends CI_Controller{
                 'user_level' => $signed_in_user['is_admin'],
                 'first_name' => $signed_in_user['first_name']
             ));
-            redirect("/dashboard");
+            if($this->session->userdata('user_level') == 1){ // if admin
+                redirect("/dashboards");
+            }else{
+                redirect("/products");
+            }
         }else{
             $this->session->set_flashdata('errors', $result);
             redirect("/login");
@@ -42,7 +46,12 @@ class Users extends CI_Controller{
     }
 
     public function signup(){
-        $this->load->view('/users/signup');
+        // Will redirect to dashboard if user is already signed in.
+        if($this->session->userdata('user_id')){
+            redirect('/products');
+        }else{
+            $this->load->view('/users/signup');
+        }
     }
 
     public function register(){

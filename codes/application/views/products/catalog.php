@@ -43,7 +43,7 @@
                         </button>
                     </li>
 <?php
-foreach($categories as $category){
+foreach($all_categories as $category){
 ?>                  <li>
                         <button type="submit" name="category" value="<?=$category['id']?>">
                             <span><?=$category['product_count']?></span><img src="<?=$category['image_dir']?>" alt="<?=$category['type_name']?> icon"><h4><?=$category['type_name']?></h4>
@@ -53,13 +53,13 @@ foreach($categories as $category){
                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
             </form>
             <div>
-                <h3>All <?=$selected_category['type_name']?> (<?=count($products)?>)</h3>
+                <h3>All <?=$selected_category['type_name']?> (<?=$selected_category['product_count']?>)</h3>
                 <ul>
 <?php
 foreach($products as $product){
 ?>                  <li>
-                        <a href="/products/<?=$product['id']?>">
-                            <img src="<?=$product['image_dir']?>" alt="product image">
+                        <a href="/product/<?=$product['id']?>">
+                            <img src=<?=$product['image']?> alt="product image">
                             <h3><?=$product['name']?></h3>
                             <ul class="rating">
                                 <li></li>
@@ -75,11 +75,14 @@ foreach($products as $product){
 <?php } ?>      </ul>
             </div>
         </section>
-    </div>
-    <nav>
+        <section id="nav">
+            <nav>
+                <a href="/"><img src="/assets/images/left.svg" alt=""></a>
 <?php for($i = 1; $i <= $page_count; $i++){ ?>
-        <a href="/products/paginate/<?=$i?>"><?=$i?></a>
-<?php } ?>
-    </nav>
+                <a href="/products/category<?=($selected_category['id'] != null) ? "/" . $selected_category['id'] : $selected_category['id'] ?>?page=<?=$i?>" <?= ($i == $page_number) ? '"id=selected"' : '' ?>><?=$i?></a>
+<?php } ?>      <a href="/"><img src="/assets/images/right.svg" alt=""></a>
+            </nav>
+        </section>
+    </div>
 </body>
 </html>

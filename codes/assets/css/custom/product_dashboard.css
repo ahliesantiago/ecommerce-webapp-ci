@@ -213,3 +213,25 @@ body .wrapper > section > div > ul > li a > span {
   font: 11px/16px roboto_regular, sans-serif;
   vertical-align: top;
 }
+section#nav{
+  padding-top: 0;
+  nav{
+    border: 1px solid #CFC6FF;
+    border-radius: 3px;
+    margin: 20px auto;
+    padding: 5px 0;
+    text-align: center;
+    width: fit-content;
+    background-color: white;
+    a{
+      border-left: 1px solid #CFC6FF;
+      border-right: 1px solid #CFC6FF;
+      padding: 5px 10px;
+      margin: 0;
+    }
+    a#selected{
+      background-color: #7971D9;
+      color: white;
+    }
+  }
+}

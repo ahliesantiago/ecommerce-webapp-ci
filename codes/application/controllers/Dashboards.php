@@ -2,6 +2,7 @@
 class Dashboards extends CI_Controller{
     public function __construct(){
         parent::__construct();
+        $this->load->model('Order');
     }
 
     public function index(){
@@ -9,8 +10,9 @@ class Dashboards extends CI_Controller{
     }
 
     public function orders(){
-        //add for admin only condition
-        $this->load->view('admin/orders');
+        //ADMIN ONLY CONDITION TO BE ADDED
+        $view_data['orders'] = $this->Order->get_orders_with_info();
+        $this->load->view('admin/orders', $view_data);
     }
 
     public function products(){

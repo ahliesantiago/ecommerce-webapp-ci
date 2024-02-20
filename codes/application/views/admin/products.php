@@ -47,7 +47,7 @@
         <aside>
             <a href="#"><img src="/assets/images/organi_shop_logo_dark.svg" alt="Organic Shop"></a>
             <ul>
-                <li><a href="/products/dashboards/orders">Orders</a></li>
+                <li><a href="/dashboards/orders">Orders</a></li>
                 <li class="active"><a href="#">Products</a></li>
             </ul>
         </aside>
