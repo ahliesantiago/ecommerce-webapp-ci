@@ -20,7 +20,7 @@ class Order extends CI_Model{
                 'user_id' => $order['user_id'],
                 'order_status' => $order['order_status'],
                 'checked_out_at' => $order['checked_out_at'],
-                'total_amount' => "TBA BY DEV",
+                'total_amount' => $this->Order->get_total_price($order['id']),
                 'address' => "TBA BY DEV",
                 'name' => $user['first_name'] . " " . $user['last_name']
             );
@@ -138,12 +138,12 @@ class Order extends CI_Model{
         return $total['total'];
     }
 
-    public function remove_item($order_id, $product_id){
+    public function delete_item($order_id, $product_id){
         $query = "DELETE FROM order_products
             WHERE order_id = ?
             AND product_id = ?";
         $values = array($order_id, $product_id);
-        return $this->db->query($query, $order_id);
+        return $this->db->query($query, $values);
     }
 
     public function delete_order(){

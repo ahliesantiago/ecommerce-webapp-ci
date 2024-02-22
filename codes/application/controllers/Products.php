@@ -36,10 +36,6 @@ class Products extends CI_Controller{
         }
     }
 
-    public function calculate_price(){
-        $price * $quantity;
-    }
-
     /* This is used for navigating through the catalog while categorized. */
     public function category($id = null){
         /* This checks the URL for any page parameter/value. */
@@ -85,7 +81,7 @@ class Products extends CI_Controller{
             $view_data['item_count'] = "0";
         }
         $view_data['all_categories'] = $this->Type->get_categories_and_count_products("all");
-        $view_data['all_products'] = $this->Product->get_products();        
+        $view_data['all_products'] = $this->Product->get_products();
         $this->load->view('products/catalog', $view_data);
     }
 }

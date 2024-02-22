@@ -95,8 +95,9 @@ if($current_orders !== null){
                                 </ul>
                                 <div>
                                     <p>Are you sure you want to remove this item?</p>
-                                    <button type="button" name="action" value="cancel-remove" class="cancel_remove">Cancel</button>
-                                    <button type="button" type="submit" name="action" value="confirm-remove" class="remove">Remove</button>
+                                    <button type="button" class="cancel_remove">Cancel</button>
+                                    <button type="button" class="remove">Remove</button>
+                                    <input type="hidden" name="action">
                                 </div>
                                 <input type="hidden" name="item_id" value="<?=$item['product_id']?>">
                                 <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
@@ -105,6 +106,10 @@ if($current_orders !== null){
 <?php } ?>          </ul>
                 </div>
                 <form class="checkout_form">
+                    <h3>Order Summary</h3>
+                    <h4>Items <span id="items_total_price">₱ <?=$total?></span></h4>
+                    <h4>Shipping Fee <span>₱ 250</span></h4>
+                    <h4 class="total_amount">Total Amount <span>₱ <?=$total + 250?></span></h4>
                     <h3>Shipping Information</h3>
                     <ul>
                         <li>
@@ -136,10 +141,38 @@ if($current_orders !== null){
                             <label>Zip Code</label>
                         </li>
                     </ul>
-                    <h3>Order Summary</h3>
-                    <h4>Items <span id="items_total_price">₱ <?=$total?></span></h4>
-                    <h4>Shipping Fee <span>₱ 250</span></h4>
-                    <h4 class="total_amount">Total Amount <span>₱ <?=$total + 250?></span></h4>
+                    <h3 id="billing">Billing Information</h3>
+                    <h4 id="is_same"><input type="checkbox" name="is_same" value="is_same">Same with Shipping Details</h4>
+                    <ul>
+                        <li>
+                            <input type="text" name="first_name" required>
+                            <label>First Name</label>
+                        </li>
+                        <li>
+                            <input type="text" name="last_name" required>
+                            <label>Last Name</label>
+                        </li>
+                        <li>
+                            <input type="text" name="address_1" required>
+                            <label>Address 1</label>
+                        </li>
+                        <li>
+                            <input type="text" name="address_2" required>
+                            <label>Address 2</label>
+                        </li>
+                        <li>
+                            <input type="text" name="city" required>
+                            <label>City</label>
+                        </li>
+                        <li>
+                            <input type="text" name="state" required>
+                            <label>State</label>
+                        </li>
+                        <li>
+                            <input type="text" name="zip_code" required>
+                            <label>Zip Code</label>
+                        </li>
+                    </ul>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#card_details_modal">Proceed to Checkout</button>
                 </form>
             </section>
@@ -187,7 +220,7 @@ if($current_orders !== null){
                 <div class="modal-content">
                     <button data-dismiss="modal" aria-label="Close" class="close_modal"></button>
                     <form action="process.php" method="post">
-                        <h2>Login to order.</h2>
+                        <h2>Login to order</h2>
                         <button type="button" class="switch_to_signup">New Member? Register here.</button>
                         <ul>
                             <li>

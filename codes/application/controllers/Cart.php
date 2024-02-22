@@ -40,7 +40,6 @@ class Cart extends CI_Controller{
             $this->Order->create_cart($current_user_id);
             $current_cart_id = $this->Order->get_current_order_id($current_user_id);
         }
-        // $cart_id = $current_cart['id'];
         // This will add the item to the cart.
         $this->Order->add_item_to_order($current_cart_id, $product_id, $quantity);
         redirect("/product/$product_id");
@@ -48,25 +47,17 @@ class Cart extends CI_Controller{
 
     /* This is used on the cart page when the quantity of an item is changed. */
     public function update_cart(){
-        if($this->input->post('action' == "confirm-remove")){
-            $this->output->enable_profiler(true);
-        }else if($this->input->post('item_qty') != null){
-            $current_user_id = $this->session->userdata('user_id');
-            $order_id = $this->Order->get_current_order_id($current_user_id);
-            $product_id = $this->input->post('item_id', true);
+        $current_user_id = $this->session->userdata('user_id');
+        $order_id = $this->Order->get_current_order_id($current_user_id);
+        $product_id = $this->input->post('item_id', true);
+        if($this->input->post('action') == "delete_cart_item"){
+            $this->Order->delete_item($order_id, $product_id);
+            redirect("/cart");
+        }else if($this->input->post('action') == null){
             $quantity = $this->input->post('item_qty', true);
             $this->Order->update_item_in_cart($order_id, $product_id, $quantity);
             redirect("/cart");
         }
-    }
-
-    public function remove(){
-        $current_user_id = $this->session->userdata('user_id');
-        $order_id = $this->Order->get_current_order_id($current_user_id);
-        $this->output->enable_profiler(true);
-        // $product_id = $this->input->post('item_id', true);
-        // $this->Order->remove_item($order_id, $product_id);
-        // redirect("/cart");
     }
 
     public function checkout(){

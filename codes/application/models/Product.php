@@ -5,7 +5,9 @@ class Product extends CI_Model{
     }
 
     public function get_products_filtered($product_type_id, $limit = null){
-        $query = "SELECT *, JSON_EXTRACT(images_json, ?) AS image FROM products WHERE product_type_id = ?";
+        $query = "SELECT *, JSON_EXTRACT(images_json, ?) AS image
+            FROM products
+            WHERE product_type_id = ?";
         if($limit != null && $limit == "limit"){
             $query = $query . " LIMIT 5";
         }
@@ -50,6 +52,31 @@ class Product extends CI_Model{
     which will be used to suggest "similar items". */
     public function get_category_of_item($id){
         return $this->db->query("SELECT product_type_id FROM products WHERE id = ?", $id)->row_array();
+    }
+
+    public function get_products_and_types($id = null){
+        if($id == null){
+            return $this->db->query("SELECT *, products.id AS product_id, JSON_EXTRACT(images_json, ?) AS image
+                FROM products
+                JOIN product_types
+                ON products.product_type_id = product_types.id
+                ORDER BY product_id", '$."1"')->result_array();
+        }else{
+            $query = "SELECT *, products.id AS product_id, JSON_EXTRACT(images_json, ?) AS image
+                FROM products
+                JOIN product_types
+                ON products.product_type_id = product_types.id
+                WHERE product_type_id = ?
+                ORDER BY product_id";
+            $values = array('$."1"', $id);
+            return $this->db->query($query, $values)->result_array();
+        }
+    }
+
+    public function add_product($input){
+        $query = "INSERT INTO products (product_type_id, name, price, description, images_json, inventory, sold_qty, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'))";
+        $values = array();
     }
 }
 ?>

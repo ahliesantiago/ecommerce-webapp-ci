@@ -1,6 +1,4 @@
 $(document).ready(function(){
-
-
     $("body").on("click", ".increase_decrease_quantity", function() {
 
         let input = $(this).closest(".form_control").find("input");

@@ -16,18 +16,14 @@
     <link rel="stylesheet" href="/assets/css/custom/product_dashboard.css">
 </head>
 <script>
-    $(document).ready(function() {
-    })
+    $(document).ready(function(){
+    });
 </script>
 <body>
     <div class="wrapper">
 <?php $this->load->view('partials/header'); ?>
         <aside>
             <a href="/products"><img src="/assets/images/organic_shop_logo.svg" alt="Organic Shop"></a>
-            <!-- <ul>
-                <li class="active"><a href="#"></a></li>
-                <li><a href="#"></a></li>
-            </ul> -->
         </aside>
         <section>
             <form action="" method="post" class="search_form">
@@ -77,10 +73,10 @@ foreach($products as $product){
         </section>
         <section id="nav">
             <nav>
-                <a href="/"><img src="/assets/images/left.svg" alt=""></a>
+                <!-- <a href="/"><img src="/assets/images/left.svg" data-nav="previous" alt=""></a> -->
 <?php for($i = 1; $i <= $page_count; $i++){ ?>
                 <a href="/products/category<?=($selected_category['id'] != null) ? "/" . $selected_category['id'] : $selected_category['id'] ?>?page=<?=$i?>" <?= ($i == $page_number) ? '"id=selected"' : '' ?>><?=$i?></a>
-<?php } ?>      <a href="/"><img src="/assets/images/right.svg" alt=""></a>
+<?php } ?>      <!-- <a href="/"><img src="/assets/images/right.svg" data-nav="next" alt=""></a> -->
             </nav>
         </section>
     </div>

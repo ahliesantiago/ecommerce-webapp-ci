@@ -44,18 +44,17 @@ $(document).ready(function() {
         $(".add_product_form").trigger("submit");
         $(".add_product_form").attr("data-modal-action", 0);
         $(".form_data_action").find("textarea").addClass("jhaver");
-
     });
 
     $("body").on("submit", ".add_product_form", function() {
         $.ajax({
             url: $(this).attr("action"),
             type: 'POST',
-            data: new FormData(this),
+            data: new FormData($(this)),
             contentType: false,
             cache: false,
-            processData:false,
-            success: function(res) {
+            processData: false,
+            success: function(res){
                 let form_data_action = $('.form_data_action').val();
                 
                 if(form_data_action == "add_product" || form_data_action == "edit_product") {
@@ -63,43 +62,37 @@ $(document).ready(function() {
                         $(".product_content").html(res);
                         resetAddProductForm();
                         $("#add_product_modal").modal("hide");
-                    }
-                    else {
+                    }else {
                         $(".image_label").html("Upload Images (4 Max) <span>* Please add an image.</span>");
                     };
-                }
-                else if(form_data_action == "upload_image" || form_data_action == "remove_image") {
+                }else if(form_data_action == "upload_image" || form_data_action == "remove_image") {
                     $(".image_preview_list").html(res);
-                }
-                else if(form_data_action == "reset_form") {
+                }else if(form_data_action == "reset_form") {
                     resetAddProductForm();
                 };
                 ($(".add_product_form").attr("data-modal-action") == 0) ? $(".form_data_action").val("add_product") : $(".form_data_action").val("edit_product");
                 ($(".image_preview_list").children().length >= 4) ? $(".upload_image").addClass("hidden") : $(".upload_image").removeClass("hidden");
             }
         });
- 
-        return false;
-    }); 
-
-    $("body").on("submit", ".categories_form", function() {
-        filterProducts(form)
-        return false;
+        // return false;
     });
 
-    $("body").on("click", ".categories_form button", function() {
-        let button = $(this);
-        let form = button.closest("form");
+    // $("body").on("submit", ".categories_form", function() {
+    //     filterProducts(form);
+    //     // return false;
+    // });
 
-        form.find("input[name=category]").val(button.attr("data-category"));
-        form.find("input[name=category_name]").val(button.attr("data-category-name"));
-        button.closest("ul").find(".active").removeClass("active");
-        button.addClass("active");
+    // $("body").on("click", ".categories_form button", function() {
+    //     let button = $(this);
+    //     let form = button.closest("form");
 
-        filterProducts(form);
-
-        return false;
-    });
+    //     form.find("input[name=category]").val(button.attr("data-category"));
+    //     form.find("input[name=category_name]").val(button.attr("data-category-name"));
+    //     button.closest("ul").find(".active").removeClass("active");
+    //     button.addClass("active");
+    //     filterProducts(form);
+    //     // return false;
+    // });
 
     $("body").on("keyup", ".search_form", function() {
         filterProducts($(this));
@@ -127,10 +120,8 @@ $(document).ready(function() {
             $(".add_product_form").find(".form_control").html(res);
             $('.selectpicker').selectpicker('refresh');
         });
-
         return false;
     });
-
 });
 
 function resetAddProductForm() {

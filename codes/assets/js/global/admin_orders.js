@@ -14,7 +14,6 @@ $(document).ready(function() {
             $(".wrapper > section").html(res);
             $(".selectpicker").selectpicker("refresh");
         });
-
         return false;
     });
 
@@ -23,7 +22,6 @@ $(document).ready(function() {
         $(".status_form").find("input[name=status_id]").val(button.val());
         $(".status_form").find(".active").removeClass("active");
         button.addClass("active");
-
     })
 
     $("body").on("submit", ".status_form", function() {

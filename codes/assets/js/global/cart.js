@@ -12,6 +12,8 @@ $(document).ready(function() {
     });
     /* prototype added delete */
     $("body").on("click", ".remove", function() {
+        // $(this).closest("input").closest("li").addClass("confirm_delete");
+        $(this).closest('form').submit();
         $(this).closest('li.confirm_delete').remove();
         $(".popover_overlay").fadeOut();
     });

@@ -18,7 +18,7 @@
     <script src="/assets/js/global/admin_orders.js"></script>
 </head>
 <script>
-     $(document).ready(function() {
+    $(document).ready(function() {
         // $('.profile_dropdown').on('click', function() {
         //     let newTop = $(this).offset().top + $(this).outerHeight();
         //     let newLeft = $(this).offset().left;
