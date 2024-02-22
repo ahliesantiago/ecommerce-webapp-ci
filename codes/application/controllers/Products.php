@@ -2,24 +2,45 @@
 class Products extends CI_Controller{
     public function __construct(){
         parent::__construct();
-        $this->load->model('Type');
+        $this->load->model('Order');
         $this->load->model('Product');
+        $this->load->model('Type');
     }
 
+    /* This is for viewing the selected items. Not having a valid product ID in the URL
+    will redirect to the catalog homepage. */
     public function index($id = null){
         if($id == null){
         /* Navigating to this URL directly in the address bar without
         a valid product ID will just redirect back to the catalog page.*/
-            redirect("/products/category/");    
+            redirect("/products/category");
         }else{
-            $view_data['item'] = $this->Product->get_product_by_id($id);
-            $view_data['images'] = $this->Product->get_images_by_id($id);
-            $category = $this->Product->get_category_of_item($id);
-            $view_data['similar_products'] = $this->Product->get_products_filtered($category, "limit");
-            $this->load->view('products/details', $view_data);
+            $item = $this->Product->get_product_by_id($id);
+            if($item == null){
+                redirect("/products/category");
+            }else{
+                $view_data['item'] = $item;
+                $view_data['images'] = $this->Product->get_images_by_id($id);
+                $category = $this->Product->get_category_of_item($id);
+                $view_data['similar_products'] = $this->Product->get_products_filtered($category, "limit");
+                
+                /* This just checks if the current user already has items in their cart. */
+                $current_orders = $this->Order->get_current_order($this->session->userdata('user_id'));
+                if($current_orders != null){
+                    $view_data['item_count'] = count($current_orders);
+                }else{
+                    $view_data['item_count'] = "0";
+                }
+                $this->load->view('products/details', $view_data);
+            }
         }
     }
 
+    public function calculate_price(){
+        $price * $quantity;
+    }
+
+    /* This is used for navigating through the catalog while categorized. */
     public function category($id = null){
         /* This checks the URL for any page parameter/value. */
         if($this->input->get()){
@@ -57,6 +78,12 @@ class Products extends CI_Controller{
         $view_data['page_number'] = $pageNum;
         /* The below are used for certain parts (e.g. product count,
         category list) of the catalog page. */
+        $current_orders = $this->Order->get_current_order($this->session->userdata('user_id'));
+        if($current_orders != null){
+            $view_data['item_count'] = count($current_orders);
+        }else{
+            $view_data['item_count'] = "0";
+        }
         $view_data['all_categories'] = $this->Type->get_categories_and_count_products("all");
         $view_data['all_products'] = $this->Product->get_products();        
         $this->load->view('products/catalog', $view_data);

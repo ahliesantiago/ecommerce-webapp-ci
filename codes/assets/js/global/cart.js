@@ -40,7 +40,7 @@ $(document).ready(function() {
             $(".wrapper > section").html(res);
             $(".popover_overlay").fadeOut();
         });
-        return false;
+        // return false;
     });
 
     $("body").on("submit", ".checkout_form", function() {

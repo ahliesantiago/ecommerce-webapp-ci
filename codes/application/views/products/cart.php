@@ -5,23 +5,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products</title>
-
     <script src="/assets/js/vendor/jquery.min.js"></script>
     <script src="/assets/js/vendor/popper.min.js"></script>
     <script src="/assets/js/vendor/bootstrap.min.js"></script>
     <script src="/assets/js/vendor/bootstrap-select.min.js"></script>
     <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="/assets/css/vendor/bootstrap-select.min.css">
-
     <link rel="stylesheet" href="/assets/css/custom/global.css">
     <link rel="stylesheet" href="/assets/css/custom/cart.css">
     <script src="/assets/js/global/cart.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(document).on('click', 'button.qty_change', function(){
+                var item_id = $(this).attr('data-item');
+                var current_qty = $('input[data-item="' + item_id + '"]').attr('value');
+                var change = $(this).attr('value');
+                var new_qty = parseInt(current_qty) + parseInt(change);
+                if(new_qty >= 1){
+                    $('input[data-item="' + item_id + '"]').attr('value', new_qty);
+                    var amount = $('input[data-item="' + item_id + '"]').attr('data-price');
+                    $('span[data-item="' + item_id + '"]').html("₱ " + (new_qty * amount).toFixed(2));
+                    $('form[id="' + item_id + '"]').submit();
+                };
+            });
+            $(document).on('change', 'input.product_quantity', function(){
+                var item_id = $(this).attr('data-item');
+                var new_qty = $(this).attr('value');
+                var amount = $('input[data-item="' + item_id + '"]').attr('data-price');
+                $('span[data-item="' + item_id + '"]').html("₱ " + (new_qty * amount).toFixed(2));
+                $('form[id="' + item_id + '"]').submit();
+            });
+        });
+    </script>
 </head>
-
-<script>
-    $(document).ready(function() {
-    });
-</script>
 <body>
     <div class="wrapper">
         <header>
@@ -44,178 +60,50 @@
                 <li><a href="#"></a></li>
             </ul> -->
         </aside>
-        <section >
+        <section>
             <form class="search_form">
                 <input type="text" name="search" placeholder="Search Products">
             </form>
-            <button class="show_cart">Cart (0)</button>
-            <section>
-                <form class="cart_items_form">
+            <button class="show_cart">Cart (<?=$item_count?>)</button>
+<?php
+if($current_orders !== null){
+?>          <section>
+                <div class="cart_items_form">
                     <ul>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                        <li>
-                            <img src="/assets/images/burger.png" alt="">
-                            <h3>Vegetable</h3>
-                            <span>$ 10</span>
-                            <ul>
-                                <li>
-                                    <label>Quantity</label>
-                                    <input type="text" min-value="1" value="1">
-                                    <ul>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="1"></button></li>
-                                        <li><button type="button" class="increase_decrease_quantity" data-quantity-ctrl="0"></button></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <label>Total Amount</label>
-                                    <span class="total_amount">$ 10</span>
-                                </li>
-                                <li>
-                                    <button type="button" class="remove_item"></button>
-                                </li>
-                            </ul>
-                            <div>
-                                <p>Are you sure you want to remove this item?</p>
-                                <button type="button" class="cancel_remove">Cancel</button>
-                                <button type="button" class="remove">Remove</button>
-                            </div>
-                        </li>
-                    </ul>
-                </form>
+<?php foreach($current_orders as $item){ ?>
+                        <form id="<?=$item['product_id']?>" action="/cart/update_cart" method="post">
+                            <li>
+                                <a href="/product/<?=$item['product_id']?>"><img src=<?=$item['image']?> alt=""></a>
+                                <a href="/product/<?=$item['product_id']?>"><h3><?=$item['name']?></h3></a>
+                                <span>₱ <?=$item['price']?></span>
+                                <ul>
+                                    <li>
+                                        <label>Quantity</label>
+                                        <input name="item_qty" data-item="<?=$item['product_id']?>" data-price="<?=$item['price']?>" class="product_quantity" type="number" min-value="1" value="<?=$item['quantity']?>">
+                                        <ul>
+                                            <li><button type="button" class="increase_decrease_quantity qty_change" data-item="<?=$item['product_id']?>" value="1" data-quantity-ctrl="1"></button></li>
+                                            <li><button type="button" class="increase_decrease_quantity qty_change" data-item="<?=$item['product_id']?>" value="-1" data-quantity-ctrl="0"></button></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <label>Total Amount</label>
+                                        <span class="total_amount" data-item="<?=$item['product_id']?>">₱ <?=$item['price'] * $item['quantity']?></span>
+                                    </li>
+                                    <li>
+                                        <button type="button" name="action" value="remove" class="remove_item"></button>
+                                    </li>
+                                </ul>
+                                <div>
+                                    <p>Are you sure you want to remove this item?</p>
+                                    <button type="button" name="action" value="cancel-remove" class="cancel_remove">Cancel</button>
+                                    <button type="button" type="submit" name="action" value="confirm-remove" class="remove">Remove</button>
+                                </div>
+                                <input type="hidden" name="item_id" value="<?=$item['product_id']?>">
+                                <input type="hidden" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" />
+                            </li>
+                        </form>
+<?php } ?>          </ul>
+                </div>
                 <form class="checkout_form">
                     <h3>Shipping Information</h3>
                     <ul>
@@ -249,12 +137,16 @@
                         </li>
                     </ul>
                     <h3>Order Summary</h3>
-                    <h4>Items <span>$ 40</span></h4>
-                    <h4>Shipping Fee <span>$ 5</span></h4>
-                    <h4 class="total_amount">Total Amount <span>$ 45</span></h4>
+                    <h4>Items <span id="items_total_price">₱ <?=$total?></span></h4>
+                    <h4>Shipping Fee <span>₱ 250</span></h4>
+                    <h4 class="total_amount">Total Amount <span>₱ <?=$total + 250?></span></h4>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#card_details_modal">Proceed to Checkout</button>
                 </form>
             </section>
+<?php
+}else{
+?>  <h4>Your cart is currently empty. Let’s <a href="/">order</a> fresh items for you.</h4>
+<?php } ?>
         </section>
         <!-- Button trigger modal -->
         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#card_details_modal">
@@ -264,7 +156,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <button data-dismiss="modal" aria-label="Close" class="close_modal"></button>
-                    <form action="process.php" method="post">
+                    <form action="/TBA" method="post">
                         <h2>Card Details</h2>
                         <ul>
                             <li>

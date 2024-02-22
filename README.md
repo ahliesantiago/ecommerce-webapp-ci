@@ -1,7 +1,7 @@
 This is my e-commerce website built with PHP and CodeIgniter 3. This is my capstone project for Village 88. Front-end designed by Jhaver Gurtiza.
 
 See below a screenshot of my ERD for the database used for this ecommerce website:
-![My database ERD for the ecommerce web app](resources/ERD 6.png)
+![My database ERD for the ecommerce web app](resources/ERD 7.png)
 
 Navigating to the homepage of this website will first bring the guest user to the homepage - a dashboard or catalog showcasing the products. This view would be slightly different if a user has signed in, and if the signed-in user is an admin, they will instead be taken to the admin dashboard.
 

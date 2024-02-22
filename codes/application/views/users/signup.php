@@ -31,7 +31,7 @@
 <body>
 <?php $this->load->view('partials/messages'); ?>
     <div class="wrapper">
-        <a href="/dashboard"><img src="/assets/images/organic_shop_logo_large.svg" alt="Organic Shop"></a>
+        <a href="/"><img src="/assets/images/organic_shop_logo_large.svg" alt="Organic Shop"></a>
         <form action="/users/register" method="post">
             <h2>Signup to order</h2>
             <a href="/users/login">Already a member? Login here.</a>

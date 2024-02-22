@@ -57,4 +57,4 @@ $route['login'] = 'users/login';
 $route['signup'] = 'users/signup';
 $route['register'] = 'users/signup';
 $route['product/(:any)'] = 'products/index/$1';
-$route['cart'] = 'carts';
+$route['cart'] = 'cart/index';

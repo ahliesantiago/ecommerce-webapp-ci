@@ -16,7 +16,7 @@ class Dashboards extends CI_Controller{
     }
 
     public function products(){
-        //add for admin only condition
+        //ADMIN ONLY CONDITION TO BE ADDED
             $this->load->view('admin/products');
     }
 

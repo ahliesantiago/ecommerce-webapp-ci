@@ -33,7 +33,7 @@
             <form action="" method="post" class="search_form">
                 <input type="text" name="search" placeholder="Search Products">
             </form>
-            <a class="show_cart" href="/cart">Cart (0)</a>
+            <a class="show_cart" href="/cart">Cart (<?=$item_count?>)</a>
             <form action="/products/category/" method="post" class="categories_form">
                 <h3>Categories</h3>
                 <ul>
