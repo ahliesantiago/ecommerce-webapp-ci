@@ -12,12 +12,12 @@ class Dashboards extends CI_Controller{
     }
 
     public function orders(){
-        if($this->session->userdata('user_level') == 1){
+        if($this->session->userdata('user_level') == 0){ // Redirect back to catalog if signed in user is not an admin.
+            redirect("/products");
+        }else{ // The below will only execute if the signed-in user is an admin.
             $view_data['orders'] = $this->Order->get_orders_with_info();
             $this->output->enable_profiler(true);
             $this->load->view('admin/orders', $view_data);
-        }else{ // Redirect back to catalog if signed in user is not an admin.
-            redirect("/products");
         }
     }
 
@@ -33,13 +33,11 @@ class Dashboards extends CI_Controller{
             /* This will check and adjust the page's contents according
             to the category selected or specified in the URL.*/
             if($id == null){
-                if($this->input->post('category')){
-                    /* If category is specified, it will redirect to
-                    the chosen category. */
+                if($this->input->post('category')){ /* If category is specified,
+                    it will redirect to the chosen category. */
                     $selected_category = $this->input->post('category', true);
                     redirect("/dashboards/products/$selected_category");
-                }else{
-                    /* Else it will not filter by category and all products
+                }else{ /* Else it will not filter by category and all products
                     will be considered. */
                     $query = $this->Product->get_products_and_types();
                     $view_data['selected_category'] = array(
@@ -68,19 +66,27 @@ class Dashboards extends CI_Controller{
 
     public function product_update(){
         /* This function is triggered when clicking Save in the
-        Add Product modal on the admin's dashboard.
-        Only admins can navigate to this URL. */
+        Add or Edit Product modal on the admin's dashboard. */
         if($this->session->userdata('user_level') == 1){
-            // $this->output->enable_profiler(true);
+            $this->output->enable_profiler(true);
+            $input = $this->input->post(null, true);
             if($this->input->post('action') == "add_product"){
-                $this->output->enable_profiler(true);
+                $this->Product->add_product($input);
+                redirect("/dashboards/products");
             }else if($this->input->post('action') == "edit_product"){
+                // $this->Product->edit_product($input, $this->input->post('edit_product_id', true));
+                $this->output->enable_profiler(true);
+                // redirect("/dashboards/products");
             }else if($this->input->post('action') == "upload_image"){
-                $this->load->view('partials/images');
+                redirect("/products/upload_image");
             }
         }else{ // Redirect back to catalog if signed in user is not an admin.
             redirect("/products");
         }
+    }
+
+    public function upload_image(){
+        $this->load->view('partials/upload');
     }
 }
 ?>

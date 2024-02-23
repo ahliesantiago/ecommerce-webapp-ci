@@ -39,6 +39,7 @@ $(document).ready(function() {
         $(".add_product_form").trigger("submit");
     });
 
+    /*  */
     $("body").on("hidden.bs.modal", "#add_product_modal", function() {
         $(".form_data_action").val("reset_form");
         $(".add_product_form").trigger("submit");
@@ -58,11 +59,11 @@ $(document).ready(function() {
                 let form_data_action = $('.form_data_action').val();
                 
                 if(form_data_action == "add_product" || form_data_action == "edit_product") {
-                    if(parseInt(res) == 0) {
+                    if(parseInt(res) == NaN){
                         $(".product_content").html(res);
                         resetAddProductForm();
                         $("#add_product_modal").modal("hide");
-                    }else {
+                    }else{
                         $(".image_label").html("Upload Images (4 Max) <span>* Please add an image.</span>");
                     };
                 }else if(form_data_action == "upload_image" || form_data_action == "remove_image") {
@@ -108,6 +109,12 @@ $(document).ready(function() {
 
     $("body").on("click", ".edit_product", function() {
         $("input[name=edit_product_id]").val($(this).val());
+        $("input[name=product_name]").val($("td." + $(this).val() + " span").attr('data-product-name'));
+        $("textarea[name=description]").val($("td." + $(this).val() + " span").attr('data-description'));
+        $("input[name=price]").val($("td." + $(this).val() + " span").attr('data-price'));
+        alert($("td." + $(this).val() + " span").attr('data-description'));
+        $("input[name=inventory]").val($("td." + $(this).val() + " span").attr('data-inventory'));
+        // $("option[value=" + ($("td." + $(this).val() + " span").attr('data-category')).val() + "]").append(" selected");
         $("#add_product_modal").modal("show");
         $(".form_data_action").val("edit_product");
         $(".add_product_form").attr("data-modal-action", 1);

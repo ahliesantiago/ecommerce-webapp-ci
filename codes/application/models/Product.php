@@ -74,9 +74,37 @@ class Product extends CI_Model{
     }
 
     public function add_product($input){
+        $images = '';
+        if(!empty($uploaded_images)){
+            $uploaded_images = $input['image'];
+            $images = '{';
+            foreach($uploaded_images as $image){
+                $i = 1;
+                $images[] =  '"' . $i . '": "' . $image_dir . '"';
+                // {"1": "/assets/images/products/Lettuce.jpg", "2": "/assets/images/products/Lettuce2.jpg", "3": "/assets/images/products/Lettuce3.webp"}
+            }
+            $images = '}';
+        }else{
+            $images = '{"1": "/assets/images/products/Placeholder - Food.png"}';
+        }
         $query = "INSERT INTO products (product_type_id, name, price, description, images_json, inventory, sold_qty, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'))";
-        $values = array();
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $values = array($input['category'], $input['product_name'], $input['price'], $input['description'], $images, $input['inventory'], 0, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'));
+        return $this->db->query($query, $values);
+    }
+
+    public function edit_product($input, $product_id){
+        $query  = "UPDATE products
+            SET product_type_id = ?, name = ?, price = ?, description = ?, inventory = ?, updated_at = ?
+            WHERE id = ?";
+        $values = array($input['category'], $input['product_name'], $input['price'], $input['description'], $input['inventory'], 0, date('Y-m-d H:i:s'), $product_id);
+        // $images = '';
+        // if(!empty($uploaded_images)){
+        //     // to add images later
+        // }else{
+        //     $images = '{"1": "/assets/images/products/Placeholder - Food.png"}';
+        // }
+        return $this->db->query($query, $values);
     }
 }
 ?>

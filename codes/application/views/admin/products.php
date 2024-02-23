@@ -20,6 +20,18 @@
         //     event.preventDefault();
         //     return false;
         // });
+        function display(input){
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(event){
+                    $('.image_preview').attr('src', event.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $(".image_input").change(function() {
+            display(this);
+        });
     });
 </script>
 <body>
@@ -93,14 +105,14 @@ foreach($products as $product){
                                     <?=$product['name']?>
                                 </span>
                             </td>
-                            <td><span><?=$product['product_id']?></span></td>
-                            <td><span><?=$product['price']?></span></td>
-                            <td><span><?=$product['type_name']?></span></td>
-                            <td><span><?=$product['inventory']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span data-product-name="<?=$product['name']?>" data-description="<?=$product['description']?>"><?=$product['product_id']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span data-price="<?=$product['price']?>"><?=$product['price']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span data-category="<?=$product['type_name']?>"><?=$product['type_name']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span data-inventory="<?=$product['inventory']?>"><?=$product['inventory']?></span></td>
                             <td><span><?=$product['sold_qty']?></span></td>
                             <td>
                                 <span>
-                                    <button class="edit_product">Edit</button>
+                                    <button class="edit_product" value="<?=$product['product_id']?>">Edit</button>
                                     <button class="delete_product">X</button>
                                 </span>
                                 <form class="delete_product_form" action="/dashboards/delete_product/<?=$product['product_id']?>" method="post">
@@ -119,8 +131,9 @@ foreach($products as $product){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <button data-dismiss="modal" aria-label="Close" class="close_modal"></button>
-                    <form class="add_product_form" action="/dashboards/product_update" method="post" data-modal-action="">
+                    <form class="add_product_form" action="/dashboards/product_update" method="post" data-modal-action=0>
                         <input type="hidden" class="form_data_action" name="action" value="add_product">
+                        <input type="hidden" name="edit_product_id">
                         <h2>Add a Product</h2>
                         <ul>
                             <li>
@@ -133,10 +146,10 @@ foreach($products as $product){
                             </li>
                             <li>
                                 <label>Category</label>
-                                <select class="selectpicker">
+                                <select name="category" class="selectpicker">
 <?php
 foreach($all_categories as $category){
-?>                                  <option><?=$category['type_name']?></option>
+?>                                  <option value="<?=$category['id']?>"><?=$category['type_name']?></option>
 <?php } ?>                      </select>
                             </li>
                             <li>
@@ -151,6 +164,7 @@ foreach($all_categories as $category){
                                 <label>Upload Images (4 Max)</label>
                                 <ul class="image_preview_list">
                                     <li><button type="button" class="upload_image"></button></li>
+                                    <li><span class="delete_image">X</span><img class="image_preview" src="" alt="new food image"></li>
                                 </ul>
                                 <input type="file" class="image_input" name="image" accept="image/*">
                             </li>
