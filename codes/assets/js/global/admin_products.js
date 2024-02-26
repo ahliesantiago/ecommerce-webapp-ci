@@ -104,17 +104,16 @@ $(document).ready(function() {
         filterProducts($(this));
         $("body").removeClass("show_popover_overlay");
         $(".popover_overlay").fadeOut();
-        return false;
+        // return false;
     });
 
     $("body").on("click", ".edit_product", function() {
         $("input[name=edit_product_id]").val($(this).val());
         $("input[name=product_name]").val($("td." + $(this).val() + " span").attr('data-product-name'));
         $("textarea[name=description]").val($("td." + $(this).val() + " span").attr('data-description'));
-        $("input[name=price]").val($("td." + $(this).val() + " span").attr('data-price'));
-        alert($("td." + $(this).val() + " span").attr('data-description'));
-        $("input[name=inventory]").val($("td." + $(this).val() + " span").attr('data-inventory'));
-        // $("option[value=" + ($("td." + $(this).val() + " span").attr('data-category')).val() + "]").append(" selected");
+        $("input[name=price]").val($("td." + $(this).val() + " span.price").attr('data-price'));
+        $("input[name=inventory]").val($("td." + $(this).val() + " span.inventory").attr('data-inventory'));
+        // $("option[value=" + ($("td." + $(this).val() + " span.category").attr('data-category')).val() + "]").after(" selected");
         $("#add_product_modal").modal("show");
         $(".form_data_action").val("edit_product");
         $(".add_product_form").attr("data-modal-action", 1);

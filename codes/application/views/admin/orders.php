@@ -62,31 +62,16 @@
             <form action="" method="post" class="status_form">
                 <h3>Status</h3>
                 <ul>
-                    <li>
-                        <button type="submit" class="active">
-                            <span>36</span><img src="/assets/images/all_orders_icon.svg" alt="#"><h4>All Products</h4>
-                        </button>
-                    </li>
-                    <li>
+<?php
+foreach($type_details as $type){
+?>                  <li>
                         <button type="submit">
-                            <span>36</span><img src="/assets/images/pending_icon.svg" alt="#"><h4>Pending</h4>
+                            <span><?=$type['count']?></span><img src="/assets/images/<?=$type['order_status']?>_icon.svg" alt="#"><h4><?=$type['order_status']?></h4>
                         </button>
                     </li>
-                    <li>
-                        <button type="submit">
-                            <span>36</span><img src="/assets/images/on_process_icon.svg" alt="#"><h4>On-Process</h4>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="submit">
-                            <span>36</span><img src="/assets/images/shipped_icon.png" alt="#"><h4>Shipped</h4>
-                        </button>
-                    </li>
-                    <li>
-                        <button type="submit">
-                            <span>36</span><img src="/assets/images/delivered_icon.svg" alt="#"><h4>Delivered</h4>
-                        </button>
-                    </li>
+<?php
+}
+?>
                 </ul>
             </form>
             <div>

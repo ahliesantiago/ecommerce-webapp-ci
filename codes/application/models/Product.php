@@ -97,7 +97,7 @@ class Product extends CI_Model{
         $query  = "UPDATE products
             SET product_type_id = ?, name = ?, price = ?, description = ?, inventory = ?, updated_at = ?
             WHERE id = ?";
-        $values = array($input['category'], $input['product_name'], $input['price'], $input['description'], $input['inventory'], 0, date('Y-m-d H:i:s'), $product_id);
+        $values = array($input['category'], $input['product_name'], $input['price'], $input['description'], $input['inventory'], date('Y-m-d H:i:s'), $product_id);
         // $images = '';
         // if(!empty($uploaded_images)){
         //     // to add images later
@@ -105,6 +105,36 @@ class Product extends CI_Model{
         //     $images = '{"1": "/assets/images/products/Placeholder - Food.png"}';
         // }
         return $this->db->query($query, $values);
+    }
+
+    public function delete_product($product_id){
+        return $this->db->query("DELETE FROM products WHERE id = ?", $product_id);
+    }
+
+    public function get_order_type_count(){
+        $types = array("Pending", "Shipped", "On-Process", "Delivered");
+        $counts = array();
+        $all = $this->db->query("SELECT COUNT(*) AS count FROM orders WHERE is_checked_out = 1")->row_array();
+        $counts['none'] = array(
+            'order_status' => "All",
+            'count' => $all['count']);
+        $query = "SELECT order_status, COUNT(*) AS count
+            FROM orders
+            WHERE order_status = ?
+            GROUP BY order_status";
+        foreach($types as $type){
+            $count = $this->db->query($query, $type)->row_array();
+            if($count == null){
+                $count['order_status'] = $type;
+                $count['count'] = 0;
+            }
+            $counts[$type] = $count;
+        }
+        return $counts;
+    }
+
+    public function filter_order_by_type($type){
+        return $this->db->query("SELECT * FROM orders WHERE order_status = ?", $type)->result_array();
     }
 }
 ?>

@@ -16,7 +16,9 @@ class Dashboards extends CI_Controller{
             redirect("/products");
         }else{ // The below will only execute if the signed-in user is an admin.
             $view_data['orders'] = $this->Order->get_orders_with_info();
-            $this->output->enable_profiler(true);
+            $view_data['type_details'] = $this->Product->get_order_type_count();
+            // var_dump($view_data['type_details']);
+            // $this->output->enable_profiler(true);
             $this->load->view('admin/orders', $view_data);
         }
     }
@@ -68,21 +70,24 @@ class Dashboards extends CI_Controller{
         /* This function is triggered when clicking Save in the
         Add or Edit Product modal on the admin's dashboard. */
         if($this->session->userdata('user_level') == 1){
-            $this->output->enable_profiler(true);
             $input = $this->input->post(null, true);
             if($this->input->post('action') == "add_product"){
                 $this->Product->add_product($input);
                 redirect("/dashboards/products");
             }else if($this->input->post('action') == "edit_product"){
-                // $this->Product->edit_product($input, $this->input->post('edit_product_id', true));
-                $this->output->enable_profiler(true);
-                // redirect("/dashboards/products");
+                $this->Product->edit_product($input, $this->input->post('edit_product_id', true));
+                redirect("/dashboards/products");
             }else if($this->input->post('action') == "upload_image"){
                 redirect("/products/upload_image");
             }
         }else{ // Redirect back to catalog if signed in user is not an admin.
             redirect("/products");
         }
+    }
+
+    public function delete_product($id){
+        $this->Product->delete_product($id);
+        redirect("/dashboards/products");
     }
 
     public function upload_image(){

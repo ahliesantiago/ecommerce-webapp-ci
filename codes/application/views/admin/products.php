@@ -106,9 +106,9 @@ foreach($products as $product){
                                 </span>
                             </td>
                             <td class="<?=$product['product_id']?>"><span data-product-name="<?=$product['name']?>" data-description="<?=$product['description']?>"><?=$product['product_id']?></span></td>
-                            <td class="<?=$product['product_id']?>"><span data-price="<?=$product['price']?>"><?=$product['price']?></span></td>
-                            <td class="<?=$product['product_id']?>"><span data-category="<?=$product['type_name']?>"><?=$product['type_name']?></span></td>
-                            <td class="<?=$product['product_id']?>"><span data-inventory="<?=$product['inventory']?>"><?=$product['inventory']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span class="price" data-price="<?=$product['price']?>"><?=$product['price']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span class="category" data-category="<?=$product['type_name']?>"><?=$product['type_name']?></span></td>
+                            <td class="<?=$product['product_id']?>"><span class="inventory" data-inventory="<?=$product['inventory']?>"><?=$product['inventory']?></span></td>
                             <td><span><?=$product['sold_qty']?></span></td>
                             <td>
                                 <span>
