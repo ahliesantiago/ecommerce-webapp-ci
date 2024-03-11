@@ -1,4 +1,4 @@
-This is my e-commerce website built with PHP and CodeIgniter 3. This is my capstone project for Village 88. Front-end designed by Jhaver Gurtiza.
+This is my e-commerce website built with PHP and CodeIgniter 3. This is my capstone project for Village 88 and is a work in progress. Front-end designed by Jhaver Gurtiza.
 
 See below a screenshot of my ERD for the database used for this ecommerce website:
 ![My database ERD for the ecommerce web app](/resources/ERD_10.png)
